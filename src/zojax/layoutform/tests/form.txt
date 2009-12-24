@@ -1,0 +1,303 @@
+===========
+PageletForm
+===========
+
+  >>> from zope import interface, component, schema
+  >>> from zope.app.testing.functional import getRootFolder
+  >>> root = getRootFolder()
+  >>> sm = component.getSiteManager()
+
+  >>> class IPerson(interface.Interface):
+  ...
+  ...     name = schema.TextLine(
+  ...         title=u'Name',
+  ...         missing_value = u'',
+  ...         required=True)
+  ...
+  ...     age = schema.Int(
+  ...         title=u'Age',
+  ...         description=u"The person's age.",
+  ...         min=0,
+  ...         default=20,
+  ...         required=False)
+
+  >>> from z3c.form import group, button
+  >>> from zojax.layoutform import interfaces, subform
+  >>> from zojax.layoutform import Fields, PageletForm
+
+  >>> class PersonForm(PageletForm):
+  ...
+  ...     ignoreContext = True
+  ...     fields = Fields(IPerson)
+  ...
+  ...     @button.buttonAndHandler(u'Save', name='save',
+  ...                              provides=interfaces.ISaveAction)
+  ...     def handleSave(self, action):
+  ...         pass
+
+Let's create a request:
+
+  >>> from z3c.form.testing import TestRequest
+  >>> request = TestRequest()
+
+And support the layout form layer for our request:
+
+  >>> from zojax.layoutform.interfaces import ILayoutFormLayer
+  >>> interface.alsoProvides(request, ILayoutFormLayer)
+
+Now create the form:
+
+  >>> form = PersonForm(root, request)
+
+Let's now render the page. Note the output doesn't contain the layout template:
+
+  >>> form.update()
+  >>> print form.render()
+  <div class="z-form z-form-standard"><form action="http://127.0.0.1" method="post" enctype="multipart/form-data" name="form" id="form">
+    <div class="z-form-fieldset">
+      <div class="z-form-field">
+        <label for="form-widgets-name" title="">Name</label>
+        <span class="z-form-fieldRequired">&nbsp;</span>
+        <div class="z-form-help"></div>
+        <div>
+           <input id="form-widgets-name" name="form.widgets.name"
+              class="text-widget required textline-field"
+              value="" type="text" />
+        </div>
+      </div> <div class="z-form-field">
+        <label for="form-widgets-age" title="The person's age.">Age</label>
+        <div class="z-form-help">The person's age.</div>
+        <div>
+           <input id="form-widgets-age" name="form.widgets.age"
+              class="text-widget int-field" value="20"
+              type="text" />
+        </div>
+      </div>
+    </div>
+    <div class="z-form-controls">
+      <span>
+        <hr />
+        <input id="form-buttons-save" name="form.buttons.save"
+           class="z-form-savebutton button-field" value="Save"
+           type="submit" />
+      </span>
+    </div>
+  </form></div>
+
+Subforms
+
+  >>> class IPersonEducation(interface.Interface):
+  ...
+  ...     education = schema.TextLine(
+  ...         title = u'Education',
+  ...         default = u'',
+  ...         required = False)
+
+Group
+
+
+  >>> class PersonEducation(group.Group):
+  ...     interface.implements(interfaces.IPageletSubform)
+  ...
+  ...     weight = 10
+  ...     fields = Fields(IPersonEducation)
+  ...     ignoreContext = True
+  ...
+  ...     def __init__(self, context, form, request):
+  ...         super(PersonEducation, self).__init__(context, request, form)
+  ...
+  ...     def isAvailable(self):
+  ...         return True
+  ...
+  ...     def postUpdate(self):
+  ...         pass
+
+  >>> tuple(form.groups)
+  ()
+
+  >>> component.getSiteManager().registerAdapter(
+  ...     PersonEducation, (interface.Interface, PersonForm, interface.Interface),
+  ...     interfaces.IPageletSubform, name='edu')
+
+  >>> form.update()
+
+  >>> print tuple(form.groups)
+  (<PersonEducation ...>,)
+
+  >>> print form.render()
+  <div class="z-form z-form-standard"><form action="http://127.0.0.1" method="post" enctype="multipart/form-data" name="form" id="form">
+    <div class="z-form-fieldset">
+      <div class="z-form-field">
+        <label for="form-widgets-name" title="">Name</label>
+        <span class="z-form-fieldRequired">&nbsp;</span>
+        <div class="z-form-help"></div>
+        <div>
+          <input id="form-widgets-name" name="form.widgets.name"
+            class="text-widget required textline-field"
+            value="" type="text" />
+        </div>
+      </div> <div class="z-form-field">
+        <label for="form-widgets-age" title="The person's age.">Age</label>
+        <div class="z-form-help">The person's age.</div>
+        <div>
+          <input id="form-widgets-age" name="form.widgets.age"
+            class="text-widget int-field" value="20"
+            type="text" />
+        </div>
+       </div>
+      </div><div class="z-form-group">
+        <div class="z-form-fieldset">
+          <div class="z-form-field">
+            <label for="form-widgets-education" title="">Education</label>
+            <div class="z-form-help"></div>
+            <div>
+               <input id="form-widgets-education"
+                 name="form.widgets.education"
+                 class="text-widget textline-field" value=""
+                 type="text" />
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="z-form-controls">
+        <span>
+          <hr />
+          <input id="form-buttons-save" name="form.buttons.save"
+             class="z-form-savebutton button-field" value="Save"
+             type="submit" />
+        </span>
+      </div>
+  </form></div>
+
+Subform
+
+  >>> class IPersonInfo(interface.Interface):
+  ...
+  ...     info = schema.Text(
+  ...         title=u'Information',
+  ...         default = u'',
+  ...         required=False)
+
+  >>> class PersonInfo(subform.PageletEditSubForm):
+  ...     interface.implements(interfaces.IPageletSubform)
+  ...
+  ...     weight = 10
+  ...     fields = Fields(IPersonInfo)
+  ...     ignoreContext = True
+  ...
+  ...     def getContent(self):
+  ...         return {}
+
+  >>> tuple(form.subforms)
+  ()
+
+  >>> component.getSiteManager().registerAdapter(
+  ...     PersonInfo, (interface.Interface, PersonForm, interface.Interface),
+  ...     interfaces.IPageletSubform, name='info')
+
+  >>> form.update()
+
+  >>> print tuple(form.subforms)
+  (<PersonInfo ...>,)
+
+  >>> print form.render()
+  <div class="z-form z-form-standard">...
+  ...
+  <label for="form-widgets-info" title="">Information</label>
+  <div class="z-form-help"></div>
+  <div>
+    <textarea id="form-widgets-info" name="form.widgets.info"
+              class="textarea-widget text-field" rows="5"></textarea>
+  </div>
+  ...
+  ...</div>
+
+  >>> request = TestRequest(
+  ...     form={'form.widgets.name': u'',
+  ...           'form.widgets.age': u'50',
+  ...           'form.widgets.education': 'University',
+  ...           'form.widgets.info': 'info',
+  ...           'form.buttons.save': u'Save'})
+  >>> interface.alsoProvides(request, ILayoutFormLayer)
+
+  >>> form = PersonForm(root, request)
+  >>> form.update()
+  >>> form.extractData()
+  ({'age': 50}, (<ErrorViewSnippet for RequiredMissing>, <ErrorViewSnippet for WrongType>, <ErrorViewSnippet for WrongType>))
+
+  >>> request = TestRequest(
+  ...     form={'form.widgets.name': u'',
+  ...           'form.widgets.age': u'50',
+  ...           'form.widgets.education': u'University',
+  ...           'form.widgets.info': u'info',
+  ...           'form.buttons.save': u'Save'})
+  >>> interface.alsoProvides(request, ILayoutFormLayer)
+
+  >>> form = PersonForm(root, request)
+  >>> form.update()
+  >>> data = form.extractData()
+  >>> print form.render()
+  <div class="z-form z-form-standard">...
+  ...
+  <div class="z-form-field error">
+     <label for="form-widgets-name" title="">Name</label>
+     <span class="z-form-fieldRequired">&nbsp;</span>
+     <div class="error">Required input is missing.</div>
+     <div class="z-form-help"></div>
+     <div>
+        <input id="form-widgets-name" name="form.widgets.name"
+           class="text-widget required textline-field"
+           value="" type="text" />
+     </div>
+  </div>
+  ...
+  ...</div>
+
+  >>> request = TestRequest(
+  ...     form={'form.widgets.name': u'Nikolay',
+  ...           'form.widgets.age': u'50',
+  ...           'form.widgets.education': u'University',
+  ...           'form.widgets.info': u'info',
+  ...           'form.buttons.save': u'Save'})
+  >>> interface.alsoProvides(request, ILayoutFormLayer)
+  >>> form = PersonForm(root, request)
+  >>> form.update()
+  >>> form.extractData()
+  ({'age': 50, 'education': u'University', 'name': u'Nikolay'}, ())
+
+
+  >>> class IItem(interface.Interface):
+  ...
+  ...     title = schema.TextLine(
+  ...         title = u'Title',
+  ...         required = True)
+
+
+  >>> class ItemForm(PageletForm):
+  ...     prefix = 'title.'
+  ...     fields = Fields(IItem)
+  ...     ignoreContext = True
+  ...     weight = 0
+
+  >>> component.getSiteManager().registerAdapter(
+  ...     ItemForm, (interface.Interface, PersonForm, interface.Interface),
+  ...     interfaces.IPageletSubform, name='item')
+
+  >>> request = TestRequest(
+  ...     form={'form.widgets.name': u'Nikolay',
+  ...           'form.widgets.age': u'50',
+  ...           'form.widgets.education': u'University',
+  ...           'form.widgets.info': u'info',
+  ...           'form.buttons.save': u'Save'})
+  >>> interface.alsoProvides(request, ILayoutFormLayer)
+
+  >>> form = PersonForm(root, request)
+  >>> form.update()
+
+  >>> tuple(form.forms)
+  (<ItemForm object ...>,)
+
+We can get forms, subforms, groups by name
+
+  >>> form.forms['item']
+  <ItemForm object ...>

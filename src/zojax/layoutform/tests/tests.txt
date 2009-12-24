@@ -1,0 +1,167 @@
+===========
+z3c.form ui
+===========
+
+  >>> from zope.app.testing.functional import getRootFolder
+  >>> root = getRootFolder()
+
+  >>> from zope import interface, schema
+
+  >>> class AgeError(schema.interfaces.ValidationError):
+  ...     __doc__ = u"""Minimu age is 20 years."""
+
+  >>> class IPerson(interface.Interface):
+  ...
+  ...     name = schema.TextLine(
+  ...         title=u'Name',
+  ...         required=True)
+  ...
+  ...     age = schema.Int(
+  ...         title=u'Age',
+  ...         description=u"The person's age.",
+  ...         min=0,
+  ...         default=20,
+  ...         required=False)
+  ...
+  ...     @interface.invariant
+  ...     def startEndDates(person):
+  ...         if person.age < 20:
+  ...             raise AgeError()
+
+
+  >>> from zope.schema.fieldproperty import FieldProperty
+  >>> class Person(object):
+  ...     interface.implements(IPerson)
+  ...
+  ...     name = FieldProperty(IPerson['name'])
+  ...     age = FieldProperty(IPerson['age'])
+  ...
+  ...     def __init__(self, name, age):
+  ...         self.name = name
+  ...         self.age = age
+  ...
+  ...     def __repr__(self):
+  ...         return '<%s %r>' % (self.__class__.__name__, self.name)
+
+
+  >>> from z3c.form import field
+  >>> from zojax.layoutform import PageletAddForm
+  >>> class PersonAddForm(PageletAddForm):
+  ...
+  ...     fields = field.Fields(IPerson)
+  ...
+  ...     def create(self, data):
+  ...         return Person(**data)
+  ...
+  ...     def add(self, object):
+  ...         self.context[object.id] = object
+  ...
+  ...     def nextURL(self):
+  ...         return 'index.html'
+
+Let's create a request:
+
+  >>> from z3c.form.testing import TestRequest
+  >>> request = TestRequest()
+
+And support the layout form layer for our request:
+
+  >>> from zojax.layoutform.interfaces import ILayoutFormLayer
+  >>> interface.alsoProvides(request, ILayoutFormLayer)
+
+Now create the form:
+
+  >>> addForm = PersonAddForm(root, request)
+
+Let's now render the page. Note the output doesn't contain the layout template:
+
+  >>> addForm.update()
+  >>> print addForm.render()
+  <div class="z-form z-form-add"><form action="http://127.0.0.1" method="post" enctype="multipart/form-data" name="form" id="form">
+    <div class="z-form-fieldset">
+      <div class="z-form-field">
+        <label for="form-widgets-name" title="">Name</label>
+        <span class="z-form-fieldRequired">&nbsp;</span>
+        <div class="z-form-help"></div>
+        <div>
+           <input id="form-widgets-name" name="form.widgets.name"
+                  class="text-widget required textline-field"
+                  value="" type="text" />
+        </div>
+      </div> <div class="z-form-field">
+        <label for="form-widgets-age" title="The person's age.">Age</label>
+        <div class="z-form-help">The person's age.</div>
+        <div>
+           <input id="form-widgets-age" name="form.widgets.age"
+                  class="text-widget int-field" value="20"
+                  type="text" />
+        </div>
+      </div>
+    </div>
+    <div class="z-form-controls">
+      <hr />
+      <div class="z-form-field">
+        <label for="add_input_name">Content short name</label>
+        <div class="z-form-help">
+          Should not contain spaces, underscores or mixed case.
+          Short Name is part of the item's web address.
+        </div>
+        <div>
+          <input type="text" name="add_input_name" id="add_input_name" />
+        </div>
+      </div>
+      <span>
+        <input id="form-buttons-add" name="form.buttons.add"
+           class="z-form-addbutton button-field" value="Add"
+           type="submit" />
+        <input id="form-buttons-cancel" name="form.buttons.cancel"
+           class="z-form-cancelbutton button-field" value="Cancel"
+           type="submit" />
+      </span>
+    </div>
+  </form></div>
+
+We have different renderer for hidden widgets
+
+  >>> from z3c.form.interfaces import HIDDEN_MODE
+  >>> addForm.fields['age'].mode = HIDDEN_MODE
+
+  >>> addForm.update()
+  >>> print addForm.render()
+  <div class="z-form z-form-add"><form action="http://127.0.0.1" method="post" enctype="multipart/form-data" name="form" id="form">
+    <div class="z-form-fieldset">
+      <div class="z-form-field">
+        <label for="form-widgets-name" title="">Name</label>
+        <span class="z-form-fieldRequired">&nbsp;</span>
+        <div class="z-form-help"></div>
+        <div>
+          <input id="form-widgets-name" name="form.widgets.name"
+             class="text-widget required textline-field"
+             value="" type="text" />
+        </div>
+      </div> <label style="display: none;" for="form-widgets-age" title="The person's age.">Age</label>
+         <input id="form-widgets-age" name="form.widgets.age"
+             value="20" class="hidden-widget" type="hidden" />
+      </div>
+      <div class="z-form-controls">
+        <hr />
+        <div class="z-form-field">
+          <label for="add_input_name">Content short name</label>
+          <div class="z-form-help">
+            Should not contain spaces, underscores or mixed case.
+            Short Name is part of the item's web address.
+          </div>
+          <div>
+            <input type="text" name="add_input_name" id="add_input_name" />
+          </div>
+       </div>
+      <span>
+        <input id="form-buttons-add" name="form.buttons.add"
+           class="z-form-addbutton button-field" value="Add"
+           type="submit" />
+        <input id="form-buttons-cancel" name="form.buttons.cancel"
+           class="z-form-cancelbutton button-field"
+           value="Cancel" type="submit" />
+      </span>
+    </div>
+    </form></div>

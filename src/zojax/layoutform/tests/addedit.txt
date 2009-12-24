@@ -1,0 +1,115 @@
+========
+Add form
+========
+
+  >>> from zope import interface, component, schema
+  >>> from zope.app.component.hooks import setSite
+  >>> from zope.app.testing.functional import getRootFolder
+  >>> from zope.testbrowser.testing import Browser
+  >>> from zope.security.checker import defineChecker, Checker, CheckerPublic
+  >>> from zope.app.security.protectclass import protectSetAttribute
+
+  >>> from zojax.layoutform import Fields
+  >>> from zojax.layoutform.add import PageletAddForm
+  >>> from zojax.layoutform.edit import PageletEditForm
+
+  >>> root = getRootFolder()
+
+  >>> class IPerson(interface.Interface):
+  ...
+  ...     name = schema.TextLine(
+  ...         title=u'Name',
+  ...         missing_value = u'',
+  ...         required=True)
+  ...
+  ...     age = schema.Int(
+  ...         title=u'Age',
+  ...         description=u"The person's age.",
+  ...         min=0,
+  ...         default=20,
+  ...         required=False)
+
+  >>> from zojax.layoutform.tests.tests import Person
+
+  >>> interface.classImplements(Person, IPerson)
+
+  >>> required = {'name': CheckerPublic,
+  ...             'age': CheckerPublic}
+  >>> defineChecker(Person, Checker(required))
+
+  >>> protectSetAttribute(Person, 'name', CheckerPublic)
+  >>> protectSetAttribute(Person, 'age', CheckerPublic)
+
+implmenent and register person add form
+
+  >>> class AddPersonForm(PageletAddForm):
+  ...
+  ...     fields = Fields(IPerson)
+  ...     
+  ...     def create(self, data):
+  ...         person = Person()
+  ...         person.name = data['name']
+  ...         person.age = data['age']
+  ...         return person
+  ...     
+  ...     def add(self, content):
+  ...         self.context['person'] = content
+  ...         return self.context['person']
+
+  >>> required = {'__call__': CheckerPublic,
+  ...             'browserDefault': CheckerPublic,
+  ...             'publishTraverse': CheckerPublic}
+  >>> defineChecker(AddPersonForm, Checker(required))
+
+  >>> component.getSiteManager().registerAdapter(
+  ...     AddPersonForm, (interface.Interface, interface.Interface),
+  ...     interface.Interface, name='addperson.html')
+
+  >>> actor = Browser()
+  >>> actor.addHeader("Authorization", "Basic mgr:mgrpw")
+  >>> actor.handleErrors = False
+
+  >>> actor.open('http://localhost/addperson.html')
+  >>> actor.getControl('Cancel').click()
+  >>> actor.url
+  'http://localhost/@@contents.html'
+
+  >>> actor.open('http://localhost/addperson.html')
+  >>> actor.getControl('Add').click()
+  >>> 'Please fix indicated errors.' in actor.contents
+  True
+
+  >>> actor.getControl('Name').value = 'Nikolay'
+  >>> actor.getControl('Age').value = '30'
+  >>> actor.getControl('Add').click()
+
+  >>> print list(root.keys())
+  [u'person']
+
+
+  >>> class EditPersonForm(PageletEditForm):
+  ...
+  ...     fields = Fields(IPerson)
+
+  >>> required = {'__call__': CheckerPublic,
+  ...             'browserDefault': CheckerPublic,
+  ...             'publishTraverse': CheckerPublic}
+  >>> defineChecker(EditPersonForm, Checker(required))
+
+  >>> component.getSiteManager().registerAdapter(
+  ...     EditPersonForm, (Person, interface.Interface),
+  ...     interface.Interface, name='edit.html')
+
+  >>> actor.open('http://localhost/person/edit.html')
+
+  >>> actor.getControl('Name').value = 'Nikolay Kim'
+  >>> actor.getControl('Age').value = ''
+  >>> actor.getControl('Save').click()
+
+  >>> actor.getControl('Name').value = 'Nikolay Kim'
+  >>> actor.getControl('Age').value = '25'
+  >>> actor.getControl('Save').click()
+
+  >>> root['person'].name, root['person'].age
+  (u'Nikolay Kim', 25)
+

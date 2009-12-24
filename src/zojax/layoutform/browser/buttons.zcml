@@ -1,0 +1,38 @@
+<configure
+   xmlns="http://namespaces.zope.org/zope"
+   i18n_domain="zojax.layoutform">
+
+  <!-- buttons -->
+  <adapter 
+     provides="z3c.form.interfaces.IButtonAction"
+     factory=".buttons.ButtonAction" />
+
+  <class class=".buttons.ButtonAction">
+    <allow attributes="render" />
+  </class>
+
+  <adapter 
+     provides="z3c.form.interfaces.IButtonAction"
+     factory=".buttons.AddButtonAction" />
+
+  <class class=".buttons.AddButtonAction">
+    <allow attributes="render" />
+  </class>
+
+  <adapter 
+     provides="z3c.form.interfaces.IButtonAction"
+     factory=".buttons.SaveButtonAction" />
+
+  <class class=".buttons.SaveButtonAction">
+    <allow attributes="render" />
+  </class>
+
+  <adapter 
+     provides="z3c.form.interfaces.IButtonAction"
+     factory=".buttons.CancelButtonAction" />
+
+  <class class=".buttons.CancelButtonAction">
+    <allow attributes="render" />
+  </class>
+
+</configure>

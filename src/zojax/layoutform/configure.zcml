@@ -1,0 +1,35 @@
+<configure 
+   xmlns="http://namespaces.zope.org/zope"
+   xmlns:i18n="http://namespaces.zope.org/i18n"
+   xmlns:zojax="http://namespaces.zope.org/zojax">
+
+  <!-- form error status message -->
+  <adapter
+     name="formError"
+     factory=".error.FormErrorStatusMessage" />
+
+  <!-- pagelet types -->
+  <zojax:pageletType
+     name="form"
+     interface="zojax.layoutform.interfaces.IPageletFormView" />
+
+  <zojax:pageletType
+     name="form.subform"
+     interface="zojax.layoutform.interfaces.IPageletSubform" />
+
+  <!-- browser views -->
+  <include package=".browser" />
+
+  <!-- translations -->
+  <i18n:registerTranslations directory="locales"/>
+
+  <!-- security declarations -->
+  <class class="z3c.form.button.ButtonAction">
+    <allow interface="z3c.form.interfaces.IWidget" />
+  </class>
+
+  <class class="z3c.form.button.ButtonActions">
+    <allow interface="z3c.form.interfaces.IActions" />
+  </class>
+
+</configure>
