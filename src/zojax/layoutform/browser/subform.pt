@@ -1,0 +1,12 @@
+<div class="z-form-fieldset">
+  <h1 tal:condition="context/label|nothing"
+      tal:content="context/label|nothing">Do something</h1>
+  <div class="z-form-description" 
+       tal:content="context/description|nothing"></div>
+
+  <tal:block tal:repeat="widget context/widgets/values"
+       tal:content="structure widget/@@pagelet/layoutform.widget" />
+</div>
+
+<tal:block tal:content="structure
+     context/@@pagelet/zojax.layoutform.browser.interfaces.IFormButtons" />

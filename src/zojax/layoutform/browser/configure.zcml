@@ -1,0 +1,240 @@
+<configure 
+   xmlns="http://namespaces.zope.org/zope"
+   xmlns:zojax="http://namespaces.zope.org/zojax">
+
+  <!-- buttons -->
+  <adapter 
+     provides="z3c.form.interfaces.IButtonAction"
+     factory=".buttons.ButtonAction" />
+
+  <adapter 
+     provides="z3c.form.interfaces.IButtonAction"
+     factory=".buttons.AddButtonAction" />
+
+  <adapter 
+     provides="z3c.form.interfaces.IButtonAction"
+     factory=".buttons.SaveButtonAction" />
+
+  <adapter 
+     provides="z3c.form.interfaces.IButtonAction"
+     factory=".buttons.CancelButtonAction" />
+
+  <!-- TextArea widget -->
+  <class class=".textarea.TextAreaWidget">
+    <require
+       permission="zope.Public"
+       interface="z3c.form.interfaces.ITextAreaWidget" />
+  </class>
+  
+  <adapter 
+     for="zope.schema.interfaces.IText
+          ..interfaces.ILayoutFormLayer"
+     factory=".textarea.TextAreaFieldWidget" />
+
+  <!-- templates -->
+  <zojax:pagelet
+     template="form.pt"
+     for="..interfaces.IPageletForm"
+     layer="..interfaces.ILayoutFormLayer"
+     provides="..interfaces.IPageletFormView"
+     permission="zope.Public" />
+
+  <zojax:pagelet
+     template="formadd.pt"
+     for="..interfaces.IPageletAddForm"
+     layer="..interfaces.ILayoutFormLayer"
+     provides="..interfaces.IPageletFormView"
+     permission="zope.Public" />
+
+  <zojax:pagelet
+     template="formedit.pt"
+     for="..interfaces.IPageletEditForm"
+     layer="..interfaces.ILayoutFormLayer"
+     provides="..interfaces.IPageletFormView"
+     permission="zope.Public" />
+
+  <zojax:pagelet
+     template="subform.pt"
+     for="z3c.form.interfaces.ISubForm"
+     layer="..interfaces.ILayoutFormLayer"
+     provides="..interfaces.IPageletFormView"
+     permission="zope.Public" />
+
+  <zojax:pagelet
+     template="formgroup.pt"
+     for="z3c.form.group.Group"
+     layer="..interfaces.ILayoutFormLayer"
+     provides="..interfaces.IPageletFormView"
+     permission="zope.Public" />
+
+  <!-- Error View -->
+  <zojax:pagelet
+     for="z3c.form.interfaces.IErrorViewSnippet"
+     template="error.pt"
+     layer="..interfaces.ILayoutFormLayer"
+     permission="zope.Public" />
+
+  <!-- form view -->
+  <interface
+     name="layoutform.form"
+     type="zojax.layout.interfaces.IPageletType"
+     interface="zojax.layoutform.browser.interfaces.IForm" />
+
+  <zojax:pagelet
+     for="..interfaces.IPageletForm"
+     template="formview.pt"
+     provides="zojax.layoutform.browser.interfaces.IForm"
+     layer="..interfaces.ILayoutFormLayer"
+     permission="zope.Public" />
+
+  <zojax:pagelet
+     for="..interfaces.IPageletDisplayForm"
+     template="formdisplay.pt"
+     provides="zojax.layoutform.browser.interfaces.IForm"
+     layer="..interfaces.ILayoutFormLayer"
+     permission="zope.Public" />
+
+  <!-- viewspace view -->
+  <interface
+     name="layoutform.viewspace"
+     type="zojax.layout.interfaces.IPageletType"
+     interface="zojax.layoutform.browser.interfaces.IViewspace" />
+
+  <zojax:pagelet
+     for="..interfaces.IPageletForm"
+     template="formviewspace.pt"
+     provides="zojax.layoutform.browser.interfaces.IViewspace"
+     layer="..interfaces.ILayoutFormLayer"
+     permission="zope.Public" />
+
+  <zojax:pagelet
+     for="..interfaces.IPageletDisplayForm"
+     template="formviewspacedisp.pt"
+     provides="zojax.layoutform.browser.interfaces.IViewspace"
+     layer="..interfaces.ILayoutFormLayer"
+     permission="zope.Public" />
+
+  <!-- form buttons -->
+  <interface
+     name="layoutform.buttons"
+     type="zojax.layout.interfaces.IPageletType"
+     interface="zojax.layoutform.browser.interfaces.IFormButtons" />
+
+  <zojax:pagelet
+     for="..interfaces.IPageletForm"
+     template="formbuttons.pt"
+     provides="zojax.layoutform.browser.interfaces.IFormButtons"
+     layer="..interfaces.ILayoutFormLayer"
+     permission="zope.Public" />
+
+  <!-- widget view -->
+  <interface
+     name="layoutform.widget"
+     type="zojax.layout.interfaces.IPageletType"
+     interface="zojax.layoutform.browser.interfaces.IWidget" />
+
+  <zojax:pagelet
+     for="z3c.form.interfaces.IWidget"
+     template="widget.pt"
+     provides="zojax.layoutform.browser.interfaces.IWidget"
+     layer="..interfaces.ILayoutFormLayer"
+     permission="zope.Public" />
+
+  <!-- display widget view -->
+  <interface
+     name="layoutform.widgetDisplay"
+     type="zojax.layout.interfaces.IPageletType"
+     interface="zojax.layoutform.browser.interfaces.IWidgetDisplay" />
+
+  <zojax:pagelet
+     for="z3c.form.interfaces.IWidget"
+     template="widgetDisplay.pt"
+     provides="zojax.layoutform.browser.interfaces.IWidgetDisplay"
+     layer="..interfaces.ILayoutFormLayer"
+     permission="zope.Public" />
+
+  <!-- group view -->
+  <interface
+     name="layoutform.group"
+     type="zojax.layout.interfaces.IPageletType"
+     interface="zojax.layoutform.browser.interfaces.IGroup" />
+
+  <zojax:pagelet
+     for="z3c.form.interfaces.IGroup"
+     template="formgroup.pt"
+     provides="zojax.layoutform.browser.interfaces.IGroup"
+     layer="..interfaces.ILayoutFormLayer"
+     permission="zope.Public" />
+
+  <!-- groups view -->
+  <interface
+     name="layoutform.groups"
+     type="zojax.layout.interfaces.IPageletType"
+     interface="zojax.layoutform.browser.interfaces.IFormGroups" />
+
+  <zojax:pagelet
+     for="..interfaces.IPageletForm"
+     template="formgroups.pt"
+     provides="zojax.layoutform.browser.interfaces.IFormGroups"
+     layer="..interfaces.ILayoutFormLayer"
+     permission="zope.Public" />
+
+  <!-- add form buttons -->
+  <zojax:pagelet
+     for="..interfaces.IPageletAddForm"
+     template="formaddbuttons.pt"
+     provides="zojax.layoutform.browser.interfaces.IFormButtons"
+     layer="..interfaces.ILayoutFormLayer"
+     permission="zope.Public" />
+
+  <!-- extra form views -->
+  <interface
+     name="layoutform.formInfo"
+     type="zojax.layout.interfaces.IPageletType"
+     interface="zojax.layoutform.browser.interfaces.IExtraFormInfo" />
+
+  <interface
+     name="layoutform.formGroups"
+     type="zojax.layout.interfaces.IPageletType"
+     interface="zojax.layoutform.browser.interfaces.IFormGroups" />
+
+  <interface
+     name="layoutform.viewspaceInfo"
+     type="zojax.layout.interfaces.IPageletType"
+     interface="zojax.layoutform.browser.interfaces.IExtraViewspaceInfo" />
+
+  <interface
+     name="layoutform.widgetBefore"
+     type="zojax.layout.interfaces.IPageletType"
+     interface="zojax.layoutform.browser.interfaces.IExtraBeforeWidget" />
+
+  <interface
+     name="layoutform.widgetAfter"
+     type="zojax.layout.interfaces.IPageletType"
+     interface="zojax.layoutform.browser.interfaces.IExtraAfterWidget" />
+
+  <interface
+     name="layoutform.buttonsInfo"
+     type="zojax.layout.interfaces.IPageletType"
+     interface="zojax.layoutform.browser.interfaces.IExtraFormButtonsInfo" />
+
+  <!-- styles -->
+  <zojax:resourceinclude
+     name="zojax-layoutform.css"
+     library="zojax"
+     type="stylesheet"
+     file="styles.css" filetype="zrt" />
+
+  <zojax:resource
+     file="required.gif"
+     name="zojax-layoutform-required.gif" />
+
+  <zojax:resource
+     file="linkOpaque.gif"
+     name="zojax-layoutform-linkOpaque.gif" />
+
+  <zojax:resource
+     file="linkTransparent.gif"
+     name="zojax-layoutform-linkTransparent.gif" />
+
+</configure>

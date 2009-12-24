@@ -1,0 +1,114 @@
+=======
+CHANGES
+=======
+
+1.2.8 (2008-11-21)
+------------------
+
+- Fixed 'formError' status message
+
+
+1.2.7 (2008-11-20)
+------------------
+
+- Use new zojax.statusmessage api
+
+
+1.2.6 (2008-11-06)
+------------------
+
+- Use updated pagelet api for nameless pagelets
+
+
+1.2.5 (2008-10-22)
+------------------
+
+- Update translations
+
+
+1.2.4 (2008-10-20)
+------------------
+
+- Added support of display form
+
+- Added tranlsations: nl, ru
+
+
+1.2.3 (2008-10-14)
+------------------
+
+- Groups support restored
+
+- Use IPageletType for views
+
+
+1.2.2 (2008-10-08)
+------------------
+
+- Added extra views for form
+
+
+1.2.1 (2008-10-08)
+------------------
+
+- Show all form errors
+
+
+1.2.0 (2008-10-06)
+------------------
+
+- Added default css styles
+
+- Removed z3c packages dependencies
+
+- Use pagelets instead of macros
+
+
+1.1.2 (2008-09-26)
+------------------
+
+- Added group support
+
+- Return added object in createAndAdd method
+
+
+1.1.1 (2008-08-05)
+------------------
+
+- Fixed wrong `for` in label tag
+
+
+1.1.0 (2008-07-22)
+------------------
+
+- Remove cancel button from edit form
+
+
+1.0.1 (2008-06-02)
+------------------
+
+- Redirect to nextURL after success 'apply'
+
+
+1.0.0 (2008-05-13)
+------------------
+
+- Use `includeDependencies` instead `autoinclude`
+
+
+0.2.0 (2008-??-??)
+------------------
+
+- Use z3c.autoinclude
+
+
+0.1.1 (2008-01-22)
+------------------
+
+- Fixed missing import in add.py
+
+
+0.1 (2008-01-19)
+----------------
+
+- Initial release

@@ -1,0 +1,13 @@
+<form action="." method="post" enctype="multipart/form-data" 
+      tal:attributes="method context/method;
+		      enctype context/enctype;
+		      acceptCharset context/acceptCharset;
+		      accept context/accept;
+		      action context/action;
+		      name context/name;
+		      id context/id">
+
+  <tal:block tal:content="structure context/@@pagelet/layoutform.formInfo|nothing" />
+  <tal:block tal:content="structure context/@@pagelet/layoutform.viewspace" />
+  <tal:block tal:content="structure context/@@pagelet/layoutform.buttons" />
+</form>

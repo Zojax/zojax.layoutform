@@ -1,0 +1,3 @@
+<tal:block
+   tal:repeat="group context/groups"
+   tal:content="structure group/@@pagelet/layoutform.group|nothing" />

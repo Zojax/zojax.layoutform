@@ -1,0 +1,19 @@
+<configure 
+   xmlns="http://namespaces.zope.org/zope"
+   xmlns:z3c="http://namespaces.zope.org/z3c"
+   xmlns:i18n="http://namespaces.zope.org/i18n">
+
+  <includeDependencies package="zojax.layoutform" />
+
+  <!-- form error status message -->
+  <adapter
+     name="formError"
+     factory=".error.FormErrorStatusMessage" />
+
+  <!-- browser views -->
+  <include package=".browser" />
+
+  <!-- translations -->
+  <i18n:registerTranslations directory="locales"/>
+
+</configure>

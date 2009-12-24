@@ -1,0 +1,7 @@
+<div class="z-form-fieldset">
+  <h3 tal:content="context/label"></h3>
+  <div class="z-page-description" tal:content="context/description|nothing"></div>
+
+  <tal:block tal:repeat="widget context/widgets/values"
+       tal:content="structure widget/@@pagelet/layoutform.widget" />
+</div>

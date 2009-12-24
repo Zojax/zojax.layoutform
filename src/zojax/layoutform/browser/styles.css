@@ -1,0 +1,190 @@
+/* zrt-cssregistry: */
+
+@media all {
+
+  .z-form {
+  }
+
+  .z-page .z-form-add,
+  .z-page .z-form-edit,
+  .page .z-form-add,
+  .page .z-form-edit {
+    border: borderWidth borderStyle globalExtraBorderColor;
+    margin-top: 0em;
+    padding: 1em;
+    background: contentBackgroundColor;
+  }
+  
+  .z-frame .z-form-edit,
+  .z-frame .z-form-standard,
+  .z-topframe .z-form-standard,
+  .frame .z-form-edit,
+  .frame .z-form-standard,
+  .topframe .z-form-standard,
+  #z-context-view .z-form-edit,
+  #z-context-view .z-form-standard {
+    border: none;
+    padding: 0em;
+  }
+
+  .z-add-form {
+    padding: 1em;
+  }
+
+  .z-form-description { 
+    color: discreetColor;
+    margin-bottom: 1.5em;
+    font-size: 90%;
+  }
+  
+  .z-form-field .z-form-description {
+    color: discreetColor;
+    font-size: fontSmallSize;
+    font-weight: normal;
+    margin-bottom: 1.5em;
+  }
+  
+  .z-form-fieldset {
+    margin-bottom: 1em;
+    color: fontColor !important;
+    background-color: backgroundColor;
+    padding: 0.5em 1em 0.5em 1em;
+  }
+  
+  .z-form-fieldset.last {
+    margin-bottom: 0em;
+  }
+  
+  .z-form form:first-child > .z-form-fieldset {
+    margin-top: 0em;
+  }
+  
+  .z-form-fieldset ul a {
+    text-decoration: none;
+    border-bottom: borderWidth dotted discreetColor;
+  }
+  
+  .z-form-fieldset label {
+    font-weight: normal;
+  }
+  
+  .z-form-fieldset h2 { 
+    font-weight: bold;
+  }
+  
+  .z-form-fieldset .header {
+    border-bottom: borderWidth borderStyle globalBorderColor;
+  }
+  
+  /* The edit form elements */
+  .z-form-field {
+    margin: 0 1em 1em 0;
+  }
+  
+  .z-form-field .z-form-field {
+    margin: 1em 0 0 0;
+  }
+  
+  .z-form-field label {
+    font-size: 100%;
+  }
+  
+  .z-form-fieldRequired {
+    background: url(zojax-layoutform-required.gif) center left no-repeat;
+    padding: 0 0 0 8px;
+    color: backgroundColor;
+  }
+  
+  .z-form-fieldUploadFile {
+    text-align: right; 
+    margin-right: 0.75em;
+    display: none;
+  }
+  
+  .z-form-fieldTextFormat {
+    text-align: right;
+    margin-right: 0.75em
+  }
+  
+  .z-form-help {
+    font-size: fontSmallSize;
+    color: discreetColor;
+    margin: 0 0 0.2em 0;
+  }
+  
+  .z-form-help:hover {
+    color: fontColor;
+    cursor: default;
+  }
+  
+  .z-form-field.error {
+    /* Class for error indication in forms */
+    background-color: notifyBackgroundColor;
+    border: borderWidth borderStyle notifyBorderColor;
+    padding: 1em;
+    margin: 0 0 1em 0;
+    width: 95%;
+  }
+  
+  .z-form-field.error .x-form-fieldRequired {
+    color: notifyBackgroundColor;
+  }
+  
+  .z-form-controls {
+    clear: both;
+    margin-top: 1em;
+  }
+
+  .z-form-controls div {
+    padding-top: 0.5em;
+  }
+
+  .z-form-button {
+    background: transparent url(zojax-layoutform-linkTransparent.gif) no-repeat;
+    background-position: 5px center;
+    cursor: pointer;
+    font-size: fontSmallSize;
+    padding: 1px 1px 1px 14px;
+  }
+  
+  .z-form-standalonebtn {
+    background: globalBackgroundColor url(zojax-layoutform-linkOpaque.gif) no-repeat;
+    background-position: 5px center;
+    cursor: pointer;
+    font-size: fontSmallSize;
+    padding: 1px 1px 1px 14px;
+  }
+  
+  .z-form-addbutton {
+    background: transparent url(zojax-layoutform-linkTransparent.gif) no-repeat;
+    background-position: 5px center;
+    cursor: pointer;
+    font-size: fontSmallSize;
+    padding: 1px 1px 1px 14px;
+  }
+  
+  .z-form-savebutton {
+    background: transparent url(zojax-layoutform-linkTransparent.gif) no-repeat;
+    background-position: 5px center;
+    cursor: pointer;
+    font-size: fontSmallSize;
+    padding: 1px 1px 1px 14px;
+  }
+  
+  .z-form-cancelbutton {
+    background: globalBackgroundColor url(zojax-layoutform-linkOpaque.gif) no-repeat;
+    background-position: 5px center;
+    cursor: pointer;
+    font-size: fontSmallSize;
+    padding: 1px 1px 1px 14px;
+  }
+  
+  .z-form-removebutton {
+    background: globalBackgroundColor url(zojax-layoutform-linkOpaque.gif) no-repeat;
+    background-position: 5px center;
+    cursor: pointer;
+    font-size: fontSmallSize;
+    padding: 1px 1px 1px 14px;
+  }
+
+}
