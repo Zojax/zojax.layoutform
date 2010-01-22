@@ -27,7 +27,10 @@ from zojax.statusmessage.interfaces import IStatusMessage
 
 from utils import applyChanges
 from form import PageletBaseForm
-from interfaces import _, IPageletEditSubForm, IPageletSubform, ISaveAction
+from interfaces import _, IPageletEditSubForm, IPageletSubform, ISaveAction, \
+                          IPageletAddSubForm, IAddAction
+
+
 
 
 class PageletEditSubForm(subform.EditSubForm, PageletBaseForm):
@@ -89,3 +92,21 @@ class PageletEditSubForm(subform.EditSubForm, PageletBaseForm):
 
     def postUpdate(self):
         self.executeActions(self.parentForm)
+
+
+class PageletAddSubForm(PageletEditSubForm):
+    interface.implements(IPageletAddSubForm)
+
+    @button.handler(IAddAction)
+    def handleApply(self, action):
+        data, errors = self.extractData()
+        if not errors:
+            changes = self.applyChanges(data)
+            if changes:
+                descriptions = []
+                for interface, names in changes.items():
+                    descriptions.append(Attributes(interface, *names))
+
+                self.changesApplied = True
+                event.notify(
+                    ObjectModifiedEvent(self.getContent(), *descriptions))

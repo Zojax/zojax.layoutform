@@ -7,4 +7,4 @@ from form import PageletForm
 from form import PageletDisplayForm
 from add import PageletAddForm
 from edit import PageletEditForm
-from subform import PageletEditSubForm
+from subform import PageletEditSubForm, PageletAddSubForm
