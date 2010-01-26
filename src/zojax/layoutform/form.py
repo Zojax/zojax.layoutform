@@ -93,8 +93,8 @@ class PageletForm(form.Form, PageletBaseForm):
         for form in self.subforms:
             try:
                 formData, formErrors = form.extractData(setErrors=setErrors)
-            except:
-                raise 'Error', (form,)
+            except Exception, e:
+                raise Exception('Error', (form, e))
             if formErrors:
                 errors += formErrors
 
