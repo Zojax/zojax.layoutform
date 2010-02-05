@@ -20,7 +20,7 @@ from zope.component import getAdapters
 from zope.component import getMultiAdapter, queryMultiAdapter
 from zope.pagetemplate.interfaces import IPageTemplate
 
-from z3c.form import form, util
+from z3c.form import form, util, action
 from z3c.form.interfaces import IForm, IGroup, ISubForm
 
 from zojax.layout.interfaces import IPagelet
@@ -74,6 +74,7 @@ class PageletForm(form.Form, PageletBaseForm):
     groups = ()
     subforms = ()
     views = ()
+    actions = action.Actions(None, None, None)
 
     render = PageletBaseForm.render
     __call__ = PageletBaseForm.__call__
