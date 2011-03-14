@@ -31,5 +31,8 @@
   <class class="z3c.form.button.ButtonActions">
     <allow interface="z3c.form.interfaces.IActions" />
   </class>
+  
+  <!-- ++widget++ namespace -->
+  <adapter factory=".traversal.FormWidgetTraversal" name="widget" />
 
 </configure>
