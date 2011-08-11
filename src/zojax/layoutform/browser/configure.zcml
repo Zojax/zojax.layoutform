@@ -142,8 +142,8 @@
      name="form.widget"
      factory=".widget.getWidgetManager" />
 
-  <!-- display widget view -->
   <zojax:pagelet
+     name="display"
      for="z3c.form.interfaces.IWidget
 	  zope.schema.interfaces.IField
 	  z3c.form.interfaces.IDisplayForm"
