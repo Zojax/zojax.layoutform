@@ -1,0 +1,61 @@
+##############################################################################
+#
+# Copyright (c) 2003-2004 Zope Corporation and Contributors.
+# All Rights Reserved.
+#
+# This software is subject to the provisions of the Zope Public License,
+# Version 2.1 (ZPL).  A copy of the ZPL should accompany this distribution.
+# THIS SOFTWARE IS PROVIDED "AS IS" AND ANY AND ALL EXPRESS OR IMPLIED
+# WARRANTIES ARE DISCLAIMED, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED
+# WARRANTIES OF TITLE, MERCHANTABILITY, AGAINST INFRINGEMENT, AND FITNESS
+# FOR A PARTICULAR PURPOSE.
+#
+##############################################################################
+msgid ""
+msgstr ""
+"Project-Id-Version: Development/Unknown\n"
+"POT-Creation-Date: Sun Dec 11 10:39:33 2011\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: Zope 3 Developers <zope3-dev@zope.org>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Generated-By: zope/app/locales/extract.py\n"
+
+#: src/zojax/layoutform/add.py:41
+msgid "Action has been canceled."
+msgstr ""
+
+#: src/zojax/layoutform/add.py:43
+msgid "Add"
+msgstr ""
+
+#: src/zojax/layoutform/add.py:59
+msgid "Cancel"
+msgstr ""
+
+#: src/zojax/layoutform/browser/formaddbuttons.pt:4
+msgid "Content short name"
+msgstr ""
+
+#: src/zojax/layoutform/browser/formaddbuttons.pt:5
+msgid "Should not contain spaces, underscores or mixed case. Short Name is part of the item's web address."
+msgstr ""
+
+#: src/zojax/layoutform/edit.py:34
+msgid "Save"
+msgstr ""
+
+#: src/zojax/layoutform/form.py:82
+msgid "Data successfully updated."
+msgstr ""
+
+#: src/zojax/layoutform/form.py:83
+msgid "No changes were applied."
+msgstr ""
+
+#: src/zojax/layoutform/form.py:84
+msgid "Please fix indicated errors."
+msgstr ""
+
